@@ -239,7 +239,7 @@ reprex <- function(
   r_file <- add_ext(r_file)                    ## foo_reprex.R
   if (isTRUE(std_out_err)) {
     std_out_err <- gsub("_reprex.R$", "_std_out_err.txt", r_file)
-    std_out_err <- normalizePath(std_out_err)
+    std_out_err <- normalizePath(std_out_err, winslash = "/")
     cat("std_out_err: '", std_out_err, "'\n", sep = "")
   } else {
     std_out_err <- NULL
