@@ -239,6 +239,7 @@ reprex <- function(
   r_file <- add_ext(r_file)                    ## foo_reprex.R
   if (isTRUE(std_out_err)) {
     std_out_err <- gsub("_reprex.R$", "_std_out_err.txt", r_file)
+    std_out_err <- normalizePath(std_out_err)
     cat("std_out_err: '", std_out_err, "'\n", sep = "")
   } else {
     std_out_err <- NULL
@@ -276,6 +277,12 @@ reprex <- function(
 
   message("Rendering reprex...")
   output_file <- md_file <- reprex_(r_file, std_out_err)
+
+  if (!is.null(std_out_err)) {
+    soe <- readLines(std_out_err)
+    cat(soe, file = md_file, sep = "\n", append = TRUE)
+  }
+
   if (outfile_given) {
     pathstem <- path_stem(r_file, md_file)
     message("Writing reprex markdown:\n  * ", sub(pathstem, "", md_file))
